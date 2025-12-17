@@ -35,9 +35,6 @@ export default function NodeStats({ nodeId }) {
     };
   }, [nodeId]);
 
-  if (!stats) return <Skeleton />;
-  if (stats.error) return <Skeleton />;
-
   const lastSync = stats.lastSuccessfulSync?.details || {};
   const metrics = lastSync.metrics || {};
 
