@@ -14,6 +14,7 @@ export default function NetworkStats() {
     if (!result.error) {
       setStats(result.data?.stats);
     }
+    console.log("Stats Object 1 :", result.data?.stats);
     setLoading(false);
     setCountdown(30);
   };
