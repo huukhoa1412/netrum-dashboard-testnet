@@ -11,11 +11,8 @@ export default function NetworkStats() {
   const loadStats = async () => {
     setLoading(true);
     const result = await fetchAPI('/lite/nodes/stats');
-// Kiểm tra nếu fetchAPI bọc stats bên trong result.data
     if (!result.error) {
-      const dataToSet = result.stats || result.data?.stats || result.data;
-      console.log("Data sẽ được set vào state:", dataToSet);
-      setStats(dataToSet);
+      setStats(result.data?.stats);
     }
     setLoading(false);
     setCountdown(30);
