@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+🚀 Netrum Node Public Endpoints Dashboard
+A unified, rate-limit-safe dashboard for monitoring Netrum nodes using public APIs.
 
-## Getting Started
-
-First, run the development server:
-
-```bash
+✨ Features
+Real-time monitoring of Netrum Lite Nodes
+Active nodes overview across the network
+Detailed node metrics & mining status
+Live mining log tracking
+Token claim status visibility
+Rate-limit safe API handling (30s rule)
+Modern Web3 UI with glassmorphism & dark theme
+Responsive layout (desktop & mobile)
+🧩 Implemented Public Endpoints
+Lite Node Server
+/lite/nodes/stats
+/lite/nodes/active
+/lite/nodes/id/{node_id}
+Registration
+/register/status
+Task Provider
+/polling/node-stats/{node_id}
+Metrics & Sync
+/metrics/requirements
+/metrics/check-cooldown/{node_id}
+/metrics/node-status/{node_id}
+Mining
+/mining/status/{node_id}
+/mining/cooldown/{node_id}
+Live Mining Log
+/live-log/status/{node_address}
+Claim Tokens
+/claim/status/{node_address}
+/claim/history/{node_address}
+🛡 Rate Limit Protection
+Each endpoint is called no more than once every 30 seconds
+No automatic polling
+Safe error handling without application crashes
+Guarded inputs to prevent unnecessary requests
+🛠 Tech Stack
+React + Vite
+TailwindCSS
+Public Netrum APIs
+🚀 Run Locally
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
