@@ -69,22 +69,47 @@ export default function Home() {
           </div>
         </div>
       )}
-
+{/* Navigation Tabs */}
       <div className="container mx-auto px-4 py-6">
-        <div className="flex gap-2 overflow-x-auto pb-2">
+        <div className="flex gap-2 p-1 bg-black/20 rounded-xl w-fit border border-white/5">
           <button
             onClick={() => setActiveTab('network')}
-            className={`px-4 py-2 rounded-lg whitespace-nowrap transition ${
-              activeTab === 'network' ? 'bg-blue-600' : 'bg-gray-800 hover:bg-gray-700'
+            className={`px-6 py-2 rounded-lg whitespace-nowrap transition-all duration-200 ${
+              activeTab === 'network' ? 'bg-blue-600 shadow-lg' : 'hover:bg-white/5 text-gray-400'
             }`}
           >
-            📊 Network Stats
+            📊 Network Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('node')}
+            className={`px-6 py-2 rounded-lg whitespace-nowrap transition-all duration-200 ${
+              activeTab === 'node' ? 'bg-blue-600 shadow-lg' : 'hover:bg-white/5 text-gray-400'
+            }`}
+          >
+            ⛏️ My Node Stats
           </button>
         </div>
       </div>
 
-      <main className="container mx-auto px-4 pb-12">
+      {/* Main Content Area */}
+      <main className="container mx-auto px-4 pb-12 min-h-[50vh]">
         {activeTab === 'network' && <NetworkStats />}
+        
+        {activeTab === 'node' && (
+          nodeId ? (
+            <NodeStats nodeId={nodeId} />
+          ) : (
+            <div className="text-center py-20 bg-gray-800/20 rounded-3xl border border-dashed border-gray-700">
+              <p className="text-gray-400 mb-4">No Node ID configured yet</p>
+              <button 
+                onClick={() => setShowSettings(true)}
+                className="text-blue-400 hover:underline font-medium"
+              >
+                Click here to enter your Node ID in Settings
+              </button>
+            </div>
+          )
+        )}
       </main>
 
       <footer className="border-t border-gray-700 bg-black/30 backdrop-blur-md mt-12">
