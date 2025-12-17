@@ -71,38 +71,47 @@ export default function NodeStats({ nodeId }) {
         </div>
       </div>
 
-      {/* Hardware Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <MetricCard label="CPU Logic" value={metrics.cpu} unit="Cores" color="blue" />
-        <MetricCard label="Memory" value={metrics.ramGB} unit="GB" color="purple" />
-        <MetricCard label="Disk Space" value={metrics.diskGB} unit="GB" color="green" />
-        <MetricCard label="Network Speed" value={metrics.speedMbps} unit="Mbps" color="yellow" />
-        <MetricCard label="Upload" value={metrics.uploadSpeedMbps} unit="Mbps" color="orange" />
-        <MetricCard label="Node Version" value={stats.version} unit="" color="indigo" isText />
+{/* Hardware Metrics Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <MetricCard label="CPU" value={metrics.cpu} unit="Cores" status={reqs.cpu?.ok} />
+        <MetricCard label="RAM" value={(metrics.ram / 1024).toFixed(1)} unit="GB" status={reqs.ram?.ok} />
+        <MetricCard label="Disk" value={metrics.disk} unit="GB" status={reqs.disk?.ok} />
+        <MetricCard label="Tasks" value={data.taskCount?.toLocaleString()} unit="Done" color="purple" />
       </div>
 
-      {/* Sync Details */}
-      <div className="bg-black/20 rounded-xl p-4 border border-white/5">
-        <h3 className="text-sm font-bold text-gray-500 mb-3 uppercase tracking-tighter">Sync Timeline</h3>
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-400">Last Successful Sync:</span>
-          <span className="text-white font-mono">{new Date(stats.lastSuccessfulSync?.timestamp).toLocaleString()}</span>
+      {/* Network Speeds */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-gray-800/30 p-4 rounded-xl border border-gray-700 flex justify-between items-center">
+          <span className="text-gray-400">Download Speed</span>
+          <span className="text-xl font-bold text-white">{metrics.speed} <small className="text-gray-500">Mbps</small></span>
         </div>
+        <div className="bg-gray-800/30 p-4 rounded-xl border border-gray-700 flex justify-between items-center">
+          <span className="text-gray-400">Upload Speed</span>
+          <span className="text-xl font-bold text-white">{metrics.uploadSpeed} <small className="text-gray-500">Mbps</small></span>
+        </div>
+      </div>
+
+      {/* Requirements Footer */}
+      <div className="bg-blue-900/10 border border-blue-500/20 p-4 rounded-xl flex items-center justify-between">
+        <span className="text-sm text-blue-300">System Requirements Check:</span>
+        <span className="font-bold text-blue-400">{reqs.status?.ok ? "✅ ALL PASSED" : "⚠️ FAILED"}</span>
       </div>
     </div>
   );
 }
 
-function MetricCard({ label, value, unit, color, isText = false }) {
+function MetricCard({ label, value, unit, status, color = "blue" }) {
   return (
-    <div className="bg-gray-800/20 border border-gray-700/50 p-5 rounded-2xl hover:border-blue-500/30 transition-all group">
-      <p className="text-gray-500 text-xs font-bold uppercase mb-2">{label}</p>
-      <div className="flex items-baseline gap-1">
-        <span className="text-2xl font-black text-white group-hover:text-blue-400 transition-colors">
-          {value || "0"}
+    <div className="bg-gray-800/30 border border-gray-700 p-4 rounded-2xl relative overflow-hidden group hover:border-blue-500/50 transition-all">
+      <p className="text-gray-500 text-xs font-bold uppercase">{label}</p>
+      <p className="text-2xl font-black text-white mt-1">
+        {value} <span className="text-sm font-normal text-gray-500">{unit}</span>
+      </p>
+      {status !== undefined && (
+        <span className={`absolute top-2 right-2 text-xs ${status ? 'text-green-500' : 'text-red-500'}`}>
+          {status ? '●' : '●'}
         </span>
-        {!isText && <span className="text-xs font-bold text-gray-600">{unit}</span>}
-      </div>
+      )}
     </div>
   );
 }
