@@ -20,8 +20,8 @@ export default function NodeStats({ nodeId }) {
       console.log("Raw Response:", r);
       
       if (isMounted.current) {
-        // Cấu trúc API: { success: true, data: { stats: { ... } } }
-        const nodeData = r?.data?.stats || r?.stats || r;
+        // Cấu trúc API: { success: true, data: { node: { ... } } }
+        const nodeData = r?.data?.node || r?.node || r;
         setStats(nodeData);
       }
     } catch (e) {
