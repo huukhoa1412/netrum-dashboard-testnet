@@ -43,11 +43,15 @@ export default function NodeStats({ nodeId }) {
   }, [nodeId]);
 
 if (loading) return <div className="text-center py-10 animate-pulse text-gray-400">Loading Node Data...</div>;
+
+  if (!stats || stats.error) return <ErrorState />;
+
+  // Trích xuất dữ liệu từ cấu trúc API Netrum
+  const isActive = stats.nodeStatus === "Active";
  
   // Trích xuất dữ liệu từ JSON thực tế
-  const metrics = nodeData.nodeMetrics || {};
-  const reqs = nodeData.requirementsCheck || {};
-  const isOnline = nodeData.nodeStatus === "Active";
+  const metrics = stats.nodeMetrics || {};
+  const reqs = stats.requirementsCheck || {};
 
   return (
     <div className="space-y-6">
