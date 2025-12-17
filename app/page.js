@@ -3,6 +3,26 @@
 import { useState } from 'react';
 import NetworkStats from '@/components/NetworkStats';
 import NodeStats from '@/components/NodeStats';
+import TaskStats from '@/components/TaskStats';
+import favicon from '../assets/logo.png'; 
+
+function NoNodeIdState({ setShowSettings }) {
+  return (
+    <div className="text-center py-20 bg-gray-800/20 rounded-3xl border border-dashed border-gray-700 animate-in fade-in zoom-in duration-500">
+      <div className="text-5xl mb-4">🔍</div>
+      <h3 className="text-xl font-bold text-white mb-2">No Node ID configured yet</h3>
+      <p className="text-gray-400 mb-6 max-w-xs mx-auto">
+        Vui lòng nhập Netrum Node ID trong phần cài đặt để bắt đầu theo dõi thông số của bạn.
+      </p>
+      <button 
+        onClick={() => setShowSettings(true)}
+        className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-full font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/20"
+      >
+        ⚙️ Open Settings
+      </button>
+    </div>
+  );
+}
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('network');
@@ -17,20 +37,29 @@ export default function Home() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-black text-white">
-      <header className="border-b border-gray-700 bg-black/30 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-2xl font-bold">N</span>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold">Netrum Dashboard</h1>
-                <p className="text-sm text-gray-400">Base Node Monitor</p>
+return (
+  <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-black text-white">
+    <header className="border-b border-gray-700 bg-black/30 backdrop-blur-md sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            {/* Khối Logo mới */}
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-blue-500 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+              <div className="relative w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center border border-gray-700 overflow-hidden">
+                <img src={favicon.src} alt="Netrum Logo" className="w-10 h-10 object-contain p-1" />
               </div>
             </div>
+
+            <div>
+              <h1 className="text-2xl font-black tracking-tight">
+                Netrum <span className="text-blue-500">Dashboard</span>
+              </h1>
+              <p className="text-xs text-gray-400 font-medium uppercase tracking-widest">
+                Base Node Monitor
+              </p>
+            </div>
+          </div>
             
             <button
               onClick={() => setShowSettings(!showSettings)}
@@ -78,51 +107,58 @@ export default function Home() {
         </div>
       )}
 {/* Navigation Tabs */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex gap-2 p-1 bg-black/20 rounded-xl w-fit border border-white/5">
-          <button
-            onClick={() => setActiveTab('network')}
-            className={`px-6 py-2 rounded-lg whitespace-nowrap transition-all duration-200 ${
-              activeTab === 'network' ? 'bg-blue-600 shadow-lg' : 'hover:bg-white/5 text-gray-400'
-            }`}
-          >
-            📊 Network Overview
-          </button>
-          <button
-            onClick={() => setActiveTab('node')}
-            className={`px-6 py-2 rounded-lg whitespace-nowrap transition-all duration-200 ${
-              activeTab === 'node' ? 'bg-blue-600 shadow-lg' : 'hover:bg-white/5 text-gray-400'
-            }`}
-          >
-            ⛏️ My Node Stats
-          </button>
-        </div>
-      </div>
+<div className="container mx-auto px-4 py-6">
+  <div className="flex gap-2 p-1 bg-black/20 rounded-xl w-fit border border-white/5 overflow-x-auto">
+    <button
+      onClick={() => setActiveTab('network')}
+      className={`px-6 py-2 rounded-lg whitespace-nowrap transition-all duration-200 ${
+        activeTab === 'network' ? 'bg-blue-600 shadow-lg text-white' : 'hover:bg-white/5 text-gray-400'
+      }`}
+    >
+      📊 Network Overview
+    </button>
+    <button
+      onClick={() => setActiveTab('node')}
+      className={`px-6 py-2 rounded-lg whitespace-nowrap transition-all duration-200 ${
+        activeTab === 'node' ? 'bg-blue-600 shadow-lg text-white' : 'hover:bg-white/5 text-gray-400'
+      }`}
+    >
+      ⛏️ My Node Stats
+    </button>
+    
+    {/* Tab Task Stats mới thêm vào */}
+    <button
+      onClick={() => setActiveTab('tasks')}
+      className={`px-6 py-2 rounded-lg whitespace-nowrap transition-all duration-200 ${
+        activeTab === 'tasks' ? 'bg-blue-600 shadow-lg text-white' : 'hover:bg-white/5 text-gray-400'
+      }`}
+    >
+      📋 Task Stats
+    </button>
+  </div>
+</div>
 
-      {/* Main Content Area */}
-      <main className="container mx-auto px-4 pb-12 min-h-[50vh]">
-        {activeTab === 'network' && <NetworkStats />}
-        
-        {activeTab === 'node' && (
-          nodeId ? (
-            <NodeStats nodeId={nodeId} />
-          ) : (
-            <div className="text-center py-20 bg-gray-800/20 rounded-3xl border border-dashed border-gray-700">
-              <p className="text-gray-400 mb-4">No Node ID configured yet</p>
-              <button 
-                onClick={() => setShowSettings(true)}
-                className="text-blue-400 hover:underline font-medium"
-              >
-                Click here to enter your Node ID in Settings
-              </button>
-            </div>
-          )
-        )}
-      </main>
+{/* Main Content Area */}
+<main className="container mx-auto px-4 pb-12 min-h-[50vh]">
+  {activeTab === 'network' && <NetworkStats />}
+  
+  {activeTab === 'node' && (
+    nodeId ? <NodeStats nodeId={nodeId} /> : <NoNodeIdState setShowSettings={setShowSettings} />
+  )}
+
+  {/* Logic hiển thị cho Tab Tasks mới */}
+  {activeTab === 'tasks' && (
+    nodeId ? (
+      <TaskStats nodeId={nodeId} />
+    ) : (
+      <NoNodeIdState setShowSettings={setShowSettings} />
+    )
+  )}
+</main>
 
       <footer className="border-t border-gray-700 bg-black/30 backdrop-blur-md mt-12">
         <div className="container mx-auto px-4 py-6 text-center text-gray-400">
-          <p>Built for Netrum Labs Challenge • Built on Base ⚡</p>
+          <p>Built for Netrum Labs Challenge • Code by Le Huu Khoa ⚡</p>
           <p className="text-sm mt-2">Updates every 30 seconds • Rate limited API</p>
         </div>
       </footer>
