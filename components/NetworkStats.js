@@ -64,7 +64,7 @@ export default function NetworkStats() {
       <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-xl p-6 border border-purple-500/30">
         <h3 className="text-xl font-bold mb-2">💎 Total Tokens</h3>
         <p className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-          {{savedNodeId} || 'N/A'} NPT
+          {stats?.totalTasks || 'N/A'} NPT
         </p>
       </div>
     </div>
