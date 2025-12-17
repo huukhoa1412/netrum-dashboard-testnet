@@ -50,8 +50,15 @@ export default function NetworkStats() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon="📈" title="Total Nodes" value={stats?.totalNodes || 'N/A'} color="blue" />
         <StatCard icon="✅" title="Active Nodes" value={stats?.activeNodes || 'N/A'} color="green" />
-        <StatCard icon="🌐" title="Online Nodes" value={stats?.inactiveNodes || '111'} color="purple" />
-        <StatCard icon="⛏️" title="Mining Now" value={stats?.totalTasks || 'N/A'} color="yellow" />
+        <StatCard icon="🌐" title="Inactive Node" value={stats?.inactiveNodes || 'N/A'} color="purple" />
+        <StatCard icon="⛏️" title="Total Tasks" value={stats?.totalTasks || 'N/A'} color="yellow" />
+      </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard icon="📈" title="Total Nodes" value={stats?.totalNodes || 'N/A'} color="blue" />
+        <StatCard icon="✅" title="Active Nodes" value={stats?.activeNodes || 'N/A'} color="green" />
+        <StatCard icon="🌐" title="Inactive Node" value={stats?.inactiveNodes || 'N/A'} color="purple" />
+        <StatCard icon="⛏️" title="Total Tasks" value={stats?.totalTasks || 'N/A'} color="yellow" />
       </div>
 
       <div className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-xl p-6 border border-purple-500/30">
