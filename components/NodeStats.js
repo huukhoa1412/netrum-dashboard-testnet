@@ -64,7 +64,8 @@ if (loading) return <div className="text-center py-10 animate-pulse text-gray-40
             <span className={`w-3 h-3 rounded-full ${isOnline ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
             <span className={`font-bold ${isOnline ? 'text-green-400' : 'text-red-400'}`}>{data.nodeStatus}</span>
           </div>
-        </d
+        </div>
+      </div>
 
 {/* Hardware Metrics Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
