@@ -13,6 +13,11 @@ export default function NodeStats({ nodeId }) {
     try {
       // Gọi trực tiếp đến endpoint node cụ thể
       const r = await fetchAPI(`/lite/nodes/id/${nodeId}`);
+
+      // --- PHẦN CONSOLE.LOG ĐỂ DEBUG ---
+      console.group("🔍 Debug Node API");
+      console.log("Endpoint:", `/lite/nodes/id/${nodeId}`);
+      console.log("Raw Response:", r);
       
       if (isMounted.current) {
         // Cấu trúc API: { success: true, data: { stats: { ... } } }
