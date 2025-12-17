@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import NetworkStats from '@/components/NetworkStats';
+import NodeStats from '@/components/NodeStats';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('network');
