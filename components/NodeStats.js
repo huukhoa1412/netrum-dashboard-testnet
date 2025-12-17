@@ -75,7 +75,6 @@ if (loading) return <div className="text-center py-10 animate-pulse text-gray-40
         <MetricCard label="CPU" value={metrics.cpu} unit="Cores" status={reqs.cpu?.ok} />
         <MetricCard label="RAM" value={(metrics.ram / 1024).toFixed(1)} unit="GB" status={reqs.ram?.ok} />
         <MetricCard label="Disk" value={metrics.disk} unit="GB" status={reqs.disk?.ok} />
-        <MetricCard label="Tasks" value={data.taskCount?.toLocaleString()} unit="Done" color="purple" />
       </div>
 
       {/* Network Speeds */}
