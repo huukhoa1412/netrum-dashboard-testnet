@@ -13,9 +13,6 @@ export default function NodeStats({ nodeId }) {
     try {
       const r = await fetchAPI(`/lite/nodes/id/${nodeId}`);
       
-      // LOG JSON để kiểm tra cấu trúc thực tế trong console
-      console.log("📥 Node API Response:", r);
-
       if (isMounted.current) {
         // Theo JSON của bạn: Dữ liệu nằm trong r.node
         if (r && r.success) {
