@@ -17,6 +17,7 @@ export default function NodeStats({ nodeId }) {
       if (isMounted.current) {
         // Cấu trúc API: { success: true, data: { stats: { ... } } }
         const nodeData = r?.data?.node || r?.node || r;
+        console.log("Stats Object:", nodeData);
         setStats(nodeData);
       }
     } catch (e) {
