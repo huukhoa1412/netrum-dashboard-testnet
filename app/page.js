@@ -9,6 +9,14 @@ export default function Home() {
   const [nodeId, setNodeId] = useState('');
   const [showSettings, setShowSettings] = useState(false);
 
+  // Hàm để lưu và tự động chuyển tab
+  const handleSave = () => {
+    setShowSettings(false);
+    if (nodeId) {
+      setActiveTab('node'); // Chuyển sang tab node sau khi nhập ID
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-black text-white">
       <header className="border-b border-gray-700 bg-black/30 backdrop-blur-md sticky top-0 z-50">
