@@ -65,9 +65,6 @@ export default function NodeStats({ nodeId }) {
         </div>
         <div className="flex flex-col items-end">
           <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Requirements</span>
-         // <span className={`text-lg font-bold ${lastSync.meetsRequirements ? 'text-blue-400' : 'text-yellow-400'}`}>
-         //   {lastSync.meetsRequirements ? "PASSED" : "FAILED"}
-         // </span>
         </div>
       </div>
 
