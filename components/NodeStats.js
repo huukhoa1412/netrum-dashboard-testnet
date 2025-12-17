@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { api } from '@/lib/api';
+import { fetchAPI } from '@/lib/api';
 
 export default function NodeStats({ nodeId }) {
   const [stats, setStats] = useState(null);
