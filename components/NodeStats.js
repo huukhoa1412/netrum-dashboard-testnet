@@ -46,9 +46,7 @@ export default function NodeStats({ nodeId }) {
   if (!stats || stats.error) return <ErrorState />;
 
   // Trích xuất dữ liệu từ cấu trúc API Netrum
-  const lastSync = stats.lastSuccessfulSync?.details || {};
-  const metrics = lastSync.metrics || {};
-  const isActive = lastSync.syncStatus === "Active";
+  const isActive = stats.nodeStatus === "Active";
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
