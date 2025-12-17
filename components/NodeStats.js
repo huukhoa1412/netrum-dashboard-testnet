@@ -60,12 +60,12 @@ if (loading) return <div className="text-center py-10 animate-pulse text-gray-40
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h2 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Node ID</h2>
-            <p className="text-lg font-mono text-blue-400 break-all">{data.nodeId}</p>
-            <p className="text-xs text-gray-500 mt-1 font-mono">Wallet: {data.wallet}</p>
+            <p className="text-lg font-mono text-blue-400 break-all">{stats.nodeId}</p>
+            <p className="text-xs text-gray-500 mt-1 font-mono">Wallet: {stats.wallet}</p>
           </div>
           <div className="flex items-center gap-3 bg-black/30 px-4 py-2 rounded-xl border border-white/5 w-fit">
             <span className={`w-3 h-3 rounded-full ${isOnline ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
-            <span className={`font-bold ${isOnline ? 'text-green-400' : 'text-red-400'}`}>{data.nodeStatus}</span>
+            <span className={`font-bold ${isOnline ? 'text-green-400' : 'text-red-400'}`}>{stats.nodeStatus}</span>
           </div>
         </div>
       </div>
