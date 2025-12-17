@@ -62,6 +62,8 @@ if (loading) return <div className="text-center py-10 animate-pulse text-gray-40
             <h2 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Node ID</h2>
             <p className="text-lg font-mono text-blue-400 break-all">{stats.nodeId}</p>
             <p className="text-xs text-gray-500 mt-1 font-mono">Wallet: {stats.wallet}</p>
+            <p className="text-xs text-gray-500 mt-1 font-mono">Created: {stats.createdAt}</p>
+            <p className="text-xs text-gray-500 mt-1 font-mono">Last claim: {stats.lastClaimTime}</p>
           </div>
           <div className="flex items-center gap-3 bg-black/30 px-4 py-2 rounded-xl border border-white/5 w-fit">
             <span className={`w-3 h-3 rounded-full ${isActive ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
