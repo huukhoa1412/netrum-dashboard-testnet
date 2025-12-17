@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { fetchAPI } from '@/lib/api';
 
+
 export default function NodeStats({ nodeId }) {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
