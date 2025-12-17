@@ -4,7 +4,7 @@ import { useState } from 'react';
 import NetworkStats from '@/components/NetworkStats';
 import NodeStats from '@/components/NodeStats';
 import TaskStats from '@/components/TaskStats';
-import favicon from '../assets/logo.png'; 
+import favicon from '../app/logo.png'; 
 
 function NoNodeIdState({ setShowSettings }) {
   return (
