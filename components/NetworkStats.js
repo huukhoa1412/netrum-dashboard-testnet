@@ -11,7 +11,7 @@ export default function NetworkStats() {
   const loadStats = async () => {
     setLoading(true);
     const result = await fetchAPI('/lite/nodes/stats');
-    if (!result.error) setStats(result.data);
+    if (!result.error) setStats(result.stats);
     setLoading(false);
     setCountdown(30);
   };
