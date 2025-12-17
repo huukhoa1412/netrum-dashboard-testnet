@@ -42,31 +42,29 @@ export default function NodeStats({ nodeId }) {
     };
   }, [nodeId]);
 
-  if (loading) return <SkeletonLoader />;
-  if (!stats || stats.error) return <ErrorState />;
+if (loading) return <div className="text-center py-10 animate-pulse text-gray-400">Loading Node Data...</div>;
+  if (!data || data.error) return <div className="text-center py-10 text-red-400">Node not found or API Error.</div>;
 
-  // Trích xuất dữ liệu từ cấu trúc API Netrum
-  const isActive = stats.nodeStatus === "Active";
+  // Trích xuất dữ liệu từ JSON thực tế
+  const metrics = nodeData.nodeMetrics || {};
+  const reqs = nodeData.requirementsCheck || {};
+  const isOnline = nodeData.nodeStatus === "Active";
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
-      {/* Status Header Area */}
-      <div className="bg-gray-800/40 rounded-2xl p-6 border border-gray-700 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className={`p-3 rounded-full ${isActive ? 'bg-green-500/20' : 'bg-red-500/20'}`}>
-            <span className="text-2xl">{isActive ? '✅' : '❌'}</span>
-          </div>
+    <div className="space-y-6">
+      {/* Header: Status & Wallet */}
+      <div className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h2 className="text-gray-400 text-xs font-bold uppercase tracking-widest">Node Status</h2>
-            <p className={`text-2xl font-black ${isActive ? 'text-green-400' : 'text-red-400'}`}>
-              {isActive ? 'ACTIVE' : 'INACTIVE'}
-            </p>
+            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-widest">Node ID</h2>
+            <p className="text-lg font-mono text-blue-400 break-all">{data.nodeId}</p>
+            <p className="text-xs text-gray-500 mt-1 font-mono">Wallet: {data.wallet}</p>
           </div>
-        </div>
-        <div className="flex flex-col items-end">
-          <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">Requirements</span>
-        </div>
-      </div>
+          <div className="flex items-center gap-3 bg-black/30 px-4 py-2 rounded-xl border border-white/5 w-fit">
+            <span className={`w-3 h-3 rounded-full ${isOnline ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></span>
+            <span className={`font-bold ${isOnline ? 'text-green-400' : 'text-red-400'}`}>{data.nodeStatus}</span>
+          </div>
+        </d
 
 {/* Hardware Metrics Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
