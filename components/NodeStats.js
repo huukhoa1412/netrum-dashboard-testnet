@@ -43,8 +43,7 @@ export default function NodeStats({ nodeId }) {
   }, [nodeId]);
 
 if (loading) return <div className="text-center py-10 animate-pulse text-gray-400">Loading Node Data...</div>;
-  if (!nodeData || nodeData.error) return <div className="text-center py-10 text-red-400">Node not found or API Error.</div>;
-
+ 
   // Trích xuất dữ liệu từ JSON thực tế
   const metrics = nodeData.nodeMetrics || {};
   const reqs = nodeData.requirementsCheck || {};
