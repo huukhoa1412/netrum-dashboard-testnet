@@ -4,6 +4,7 @@ import { useState } from 'react';
 import NetworkStats from '@/components/NetworkStats';
 import NodeStats from '@/components/NodeStats';
 import TaskStats from '@/components/TaskStats';
+import Mining from '@/components/Mining';
 import favicon from '../app/logo.png'; 
 
 function NoNodeIdState({ setShowSettings }) {
@@ -27,13 +28,14 @@ function NoNodeIdState({ setShowSettings }) {
 export default function Home() {
   const [activeTab, setActiveTab] = useState('network');
   const [nodeId, setNodeId] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
   const [showSettings, setShowSettings] = useState(false);
 
   // Hàm để lưu và tự động chuyển tab
   const handleSave = () => {
     setShowSettings(false);
-    if (nodeId) {
-      setActiveTab('node'); // Chuyển sang tab node sau khi nhập ID
+    if (nodeId || walletAddress) {
+      setActiveTab('mining'); // Chuyển sang tab node sau khi nhập ID
     }
   };
 
@@ -71,34 +73,50 @@ return (
         </div>
       </header>
 
-      {showSettings && (
+{showSettings && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl p-6 max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">⚙️ Settings</h2>
+          <div className="bg-gray-900 rounded-xl p-6 max-w-md w-full border border-gray-700">
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <span>⚙️</span> Settings
+            </h2>
             
             <div className="space-y-4">
+              {/* Ô nhập Node ID */}
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Node ID</label>
+                <label className="block text-sm text-gray-400 mb-2 font-medium">Netrum Node ID</label>
                 <input
                   type="text"
                   value={nodeId}
                   onChange={(e) => setNodeId(e.target.value)}
-                  placeholder="Enter your node ID"
-                  className="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-700 focus:border-blue-500 outline-none text-white"
+                  placeholder="e.g. 12345"
+                  className="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none text-white transition-all"
                 />
+              </div>
+
+              {/* 2. Ô nhập Wallet Address mới thêm vào */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2 font-medium">Wallet Address</label>
+                <input
+                  type="text"
+                  value={walletAddress}
+                  onChange={(e) => setWalletAddress(e.target.value)}
+                  placeholder="0x..."
+                  className="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-700 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none text-white transition-all"
+                />
+                <p className="text-[10px] text-gray-500 mt-1 italic">* Dùng để theo dõi phần thưởng (Rewards)</p>
               </div>
             </div>
             
             <div className="flex gap-3 mt-6">
               <button
-                onClick={() => setShowSettings(false)}
-                className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+                onClick={handleSave} // Sử dụng hàm handleSave đã khai báo ở trên
+                className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold transition-colors"
               >
-                Save
+                Save Changes
               </button>
               <button
                 onClick={() => setShowSettings(false)}
-                className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
+                className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
               >
                 Cancel
               </button>
@@ -135,26 +153,49 @@ return (
     >
       📋 Task Stats
     </button>
+
+       {/* Tab Mining mới */}
+          <button
+            onClick={() => setActiveTab('mining')}
+            className={`px-6 py-2 rounded-lg whitespace-nowrap transition-all ${activeTab === 'mining' ? 'bg-emerald-600 text-white' : 'text-gray-400 hover:bg-white/5'}`}
+          >
+            ⚡ Mining Live
+          </button>
+
   </div>
 </div>
 
 {/* Main Content Area */}
-<main className="container mx-auto px-4 pb-12 min-h-[50vh]">
-  {activeTab === 'network' && <NetworkStats />}
-  
-  {activeTab === 'node' && (
-    nodeId ? <NodeStats nodeId={nodeId} /> : <NoNodeIdState setShowSettings={setShowSettings} />
-  )}
+    <main className="container mx-auto px-4 pb-12 min-h-[50vh]">
+        {activeTab === 'network' && <NetworkStats />}
+        
+        {/* 3. Truyền walletAddress vào các component nếu cần thiết */}
+        {activeTab === 'node' && (
+          (nodeId || walletAddress) ? (
+            <NodeStats nodeId={nodeId} walletAddress={walletAddress} /> 
+          ) : (
+            <NoNodeIdState setShowSettings={setShowSettings} />
+          )
+        )}
 
-  {/* Logic hiển thị cho Tab Tasks mới */}
-  {activeTab === 'tasks' && (
-    nodeId ? (
-      <TaskStats nodeId={nodeId} />
+        {activeTab === 'tasks' && (
+          (nodeId || walletAddress) ? (
+            <TaskStats nodeId={nodeId} walletAddress={walletAddress} />
+          ) : (
+            <NoNodeIdState setShowSettings={setShowSettings} />
+          )
+        )}
+
+
+{/* Tab Mining mới thêm vào */}
+  {activeTab === 'mining' && (
+    (nodeId || walletAddress) ? (
+      <Mining nodeId={nodeId} walletAddress={walletAddress} />
     ) : (
       <NoNodeIdState setShowSettings={setShowSettings} />
     )
   )}
-</main>
+      </main>
 
       <footer className="border-t border-gray-700 bg-black/30 backdrop-blur-md mt-12">
         <div className="container mx-auto px-4 py-6 text-center text-gray-400">
