@@ -7,19 +7,21 @@ import { fetchAPI } from '@/lib/api';
 export default function NodeStats({ nodeId }) {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [countdown, setCountdown] = useState(60);
   const isMounted = useRef(true);
 
-  const fetchStats = async () => {
+  const fetchStats = async (isSilent = false) => {
     if (!nodeId) return;
+    if (!isSilent) setLoading(true); // Chỉ hiện loading nếu không phải update ngầm
+
     try {
       // Gọi trực tiếp đến endpoint node cụ thể
-      const r = await fetchAPI(`/lite/nodes/id/${nodeId}`);
-      
+      const r = await fetchAPI(`/lite/nodes/id/${nodeId}`);  
       if (isMounted.current) {
         // Cấu trúc API: { success: true, data: { stats: { ... } } }
         const nodeData = r?.data?.node || r?.node || r;
-        console.log("Stats Object:", nodeData);
         setStats(nodeData);
+	setCountdown(60); // Reset bộ đếm về 30 sau khi tải xong
       }
     } catch (e) {
       console.error("NodeStats fetch error:", e);
@@ -31,21 +33,36 @@ export default function NodeStats({ nodeId }) {
 
   useEffect(() => {
     isMounted.current = true;
-    setLoading(true);
+    // 1. Tải dữ liệu lần đầu (hiện Loading)
     fetchStats();
 
-    // Tự động làm mới mỗi 60 giây
-    const interval = setInterval(fetchStats, 60000);
+    // 2. Thiết lập bộ đếm ngược 1 giây chạy một lần
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          fetchStats(true); // Gọi cập nhật ngầm (silent) khi hết thời gian
+          return 60;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-    return () => {
+      return () => {
       isMounted.current = false;
-      clearInterval(interval);
+      clearInterval(timer);
     };
-  }, [nodeId]);
+  }, [nodeId]); // Chạy lại nếu đổi nodeId
 
-if (loading) return <div className="text-center py-10 animate-pulse text-gray-400">Loading Node Data...</div>;
+// Chỉ hiện màn hình Loading to nếu chưa có dữ liệu (lần đầu)
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
-  if (!stats || stats.error) return <ErrorState />;
+  if (stats.error) return <ErrorState />;
 
   // Trích xuất dữ liệu từ cấu trúc API Netrum
   const isActive = stats.nodeStatus === "Active";
@@ -56,6 +73,17 @@ if (loading) return <div className="text-center py-10 animate-pulse text-gray-40
 
   return (
     <div className="space-y-6">
+      {/* Bộ đếm thời gian giống NetworkStats */}
+      <div className="bg-gray-800/50 rounded-xl p-4 flex items-center justify-between border border-gray-700">
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+          <span className="text-gray-400">Auto-refreshing Node Data</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-gray-500">Next update:</span>
+          <span className="text-2xl font-mono text-blue-400">{countdown}s</span>
+        </div>
+      </div>
       {/* Header: Status & Wallet */}
       <div className="bg-gray-800/50 border border-gray-700 rounded-2xl p-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
